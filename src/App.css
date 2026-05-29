@@ -1,0 +1,151 @@
+@import "tailwindcss";
+
+/* ── DESIGN TOKENS ────────────────────────────────────────────
+   All brand colours, fonts, and easing in one place.
+   Reference these in Tailwind arbitrary values or inline styles.
+   ──────────────────────────────────────────────────────────── */
+:root {
+  /* Colour palette */
+  --color-ink:          #1A1A1A;
+  --color-warm-white:   #FAF8F5;
+  --color-white:        #FFFFFF;
+  --color-turquoise:    #2ABFBF;
+  --color-mid-grey:     #8A8A8A;
+  --color-light-grey:   #E8E6E3;
+
+  /* Typography */
+  --font-headline: 'Bricolage Grotesque', sans-serif;
+  --font-body:     'DM Sans', sans-serif;
+
+  /* Motion */
+  --ease-out:      cubic-bezier(0.0, 0.0, 0.2, 1);
+  --duration-slow: 500ms;
+  --duration-fast: 200ms;
+}
+
+/* ── BASE ─────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background-color: var(--color-warm-white);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── SCROLL ENTRANCE ANIMATION ────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity var(--duration-slow) var(--ease-out),
+    transform var(--duration-slow) var(--ease-out);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger siblings */
+.reveal:nth-child(2) { transition-delay: 80ms; }
+.reveal:nth-child(3) { transition-delay: 160ms; }
+.reveal:nth-child(4) { transition-delay: 240ms; }
+
+/* ── REDUCED MOTION ───────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ── TURQUOISE UNDERLINE LINK ─────────────────────────────── */
+.tq-link {
+  position: relative;
+  text-decoration: none;
+}
+.tq-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--color-turquoise);
+  transition: width var(--duration-fast) ease-in-out;
+}
+.tq-link:hover::after { width: 100%; }
+
+/* ── PRINCIPLES ───────────────────────────────────────────── */
+.principles {
+  display: flex;
+  flex-direction: column;
+  gap: 4.25rem; /* generous vertical spacing like the screenshot */
+}
+
+.principle {
+  display: grid;
+  grid-template-columns: 84px 1fr; /* icon column + copy column */
+  gap: 2.25rem;
+  align-items: start;
+}
+
+.principle__icon {
+  width: 84px;
+  height: 84px;
+  object-fit: contain;
+  display: block;
+}
+
+.principle__title {
+  margin: 0;
+  font-weight: 500;
+  font-size: clamp(1rem, 1vw, 1.2rem);
+  line-height: 1.25;
+  color: var(--color-turquoise); /* brand turquoise */
+}
+
+.principle__body {
+  margin: 0.75rem 0 0 0;
+  font-weight: 300;
+  font-size: clamp(0.8rem, 1vw, 1.2rem);
+  line-height: 1.75;
+  color: var(--color-ink);
+  opacity: 0.85;          /* softens body copy slightly (like screenshot) */
+  max-width: 68ch;        /* keeps line length readable */
+}
+
+@media (max-width: 640px) {
+  .principle {
+    grid-template-columns: 64px 1fr;
+    gap: 1.25rem;
+  }
+
+  .principle__icon {
+    width: 64px;
+    height: 64px;
+  }
+
+  .principles {
+    gap: 2.5rem;
+  }
+}
+/* Trends case – Step 4 special image grid */
+.trends-step4-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+@media (max-width: 768px) {
+  .trends-step4-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
